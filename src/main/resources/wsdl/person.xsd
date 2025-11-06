@@ -5,6 +5,34 @@
         xmlns:tns="http://example.com/soapdemo/wsdl"
         elementFormDefault="qualified">
 
+    <!-- ... GetPersonRequest / GetPersonResponse ... -->
+
+    <xs:complexType name="Person">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long" minOccurs="0"/>
+            <xs:element name="name" type="tns:PersonName"/>
+            <xs:element name="email" type="tns:EmailType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Name: 2–50 chars, letters, spaces, hyphens -->
+    <xs:simpleType name="PersonName">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="2"/>
+            <xs:maxLength value="50"/>
+            <xs:pattern value="[A-Za-z\s\-]+"/>
+            <xs:whiteSpace value="collapse"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- Email: Standard email regex -->
+    <xs:simpleType name="EmailType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[^@]+@[^@]+\.[^@]+"/>
+            <xs:maxLength value="100"/>
+        </xs:restriction>
+    </xs:simpleType>
+
     <xs:element name="GetPersonRequest">
         <xs:complexType>
             <xs:sequence>
@@ -20,14 +48,6 @@
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-
-    <xs:complexType name="Person">
-        <xs:sequence>
-            <xs:element name="id" type="xs:long"/>
-            <xs:element name="name" type="xs:string"/>
-            <xs:element name="email" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
 
     <xs:element name="CreatePersonRequest">
         <xs:complexType>
